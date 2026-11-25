@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ТаксиПульс — где стоять, чтобы заработать больше</title>
+<meta name="description" content="ТаксиПульс — приложение для водителей такси: карта спроса, коэффициенты по зонам, подсказка куда ехать сейчас и виджет на главном экране.">
+<style>
+:root{
+  --bg:#ffffff; --surface:#f5f6f8; --line:#e2e5ea;
+  --text:#14171c; --muted:#5b636e;
+  --accent:#0f8f82; --accent-soft:#e4f4f2; --accent-text:#0b6b61;
+  --warn-bg:#fff6e5; --warn-line:#f0d9a8; --warn-text:#6b4e12;
+  --radius:14px; --maxw:960px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1216; --surface:#171b21; --line:#262c35;
+    --text:#e9edf2; --muted:#9aa4b2;
+    --accent:#2fb9a8; --accent-soft:#12302d; --accent-text:#5fd6c6;
+    --warn-bg:#2a2314; --warn-line:#4a3c1c; --warn-text:#e3c98a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1216; --surface:#171b21; --line:#262c35;
+  --text:#e9edf2; --muted:#9aa4b2;
+  --accent:#2fb9a8; --accent-soft:#12302d; --accent-text:#5fd6c6;
+  --warn-bg:#2a2314; --warn-line:#4a3c1c; --warn-text:#e3c98a;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 16px}
+a{color:var(--accent-text)}
+
+header{border-bottom:1px solid var(--line)}
+.bar{display:flex; align-items:center; gap:12px; padding:18px 0}
+.logo{
+  width:38px; height:38px; border-radius:11px; flex:none;
+  background:var(--accent); color:#fff; display:grid; place-items:center;
+  font-weight:700; font-size:18px; letter-spacing:-.5px;
+}
+.brand{font-weight:650; font-size:18px}
+.brand span{display:block; font-weight:400; font-size:13px; color:var(--muted)}
+
+.hero{padding:56px 0 44px}
+.hero h1{font-size:clamp(28px,5.2vw,44px); line-height:1.15; margin:0 0 16px; letter-spacing:-.5px}
+.hero p.lead{font-size:clamp(17px,2.4vw,20px); color:var(--muted); margin:0 0 28px; max-width:46ch}
+.cta{display:flex; flex-wrap:wrap; gap:12px; align-items:center}
+.btn{
+  display:inline-block; padding:13px 22px; border-radius:11px;
+  background:var(--accent); color:#fff; text-decoration:none; font-weight:600;
+}
+.btn.ghost{background:transparent; color:var(--text); border:1px solid var(--line)}
+.meta{color:var(--muted); font-size:14px; margin-top:14px}
+
+section{padding:44px 0; border-top:1px solid var(--line)}
+h2{font-size:clamp(22px,3.4vw,28px); margin:0 0 8px; letter-spacing:-.3px}
+.sub{color:var(--muted); margin:0 0 26px; max-width:60ch}
+
+.grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:20px}
+.card h3{margin:0 0 8px; font-size:17px}
+.card p{margin:0; color:var(--muted); font-size:15px}
+
+ol.steps{counter-reset:s; list-style:none; padding:0; margin:0; display:grid; gap:14px}
+ol.steps li{position:relative; padding-left:44px; color:var(--muted)}
+ol.steps li b{color:var(--text); font-weight:600}
+ol.steps li::before{
+  counter-increment:s; content:counter(s);
+  position:absolute; left:0; top:0; width:30px; height:30px; border-radius:9px;
+  background:var(--accent-soft); color:var(--accent-text);
+  display:grid; place-items:center; font-weight:700; font-size:14px;
+}
+
+/* Слоты под скриншоты. Положите файлы в site/img/ и раскомментируйте <img>. */
+.shots{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.shot{
+  border:1px dashed var(--line); border-radius:var(--radius);
+  aspect-ratio:9/19; display:grid; place-items:center;
+  color:var(--muted); font-size:14px; text-align:center; padding:16px;
+  background:var(--surface);
+}
+.shot img{width:100%; height:100%; object-fit:cover; border-radius:var(--radius)}
+
+.note{
+  background:var(--warn-bg); border:1px solid var(--warn-line); color:var(--warn-text);
+  border-radius:var(--radius); padding:18px 20px; font-size:15px;
+}
+.note b{color:inherit}
+
+dl.faq{margin:0; display:grid; gap:18px}
+dl.faq dt{font-weight:650; margin-bottom:4px}
+dl.faq dd{margin:0; color:var(--muted)}
+
+footer{border-top:1px solid var(--line); padding:28px 0 48px; color:var(--muted); font-size:14px}
+footer a{color:var(--muted)}
+.fl{display:flex; flex-wrap:wrap; gap:18px; margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <div class="logo" aria-hidden="true">ТП</div>
+    <div class="brand">ТаксиПульс<span>приложение для водителей такси</span></div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <h1>Где стоять сейчас, чтобы заработать больше</h1>
+    <p class="lead">ТаксиПульс показывает карту спроса вокруг вас, считает коэффициенты по зонам
+      и подсказывает, куда имеет смысл переехать — с учётом времени подачи и расхода на дорогу.</p>
+    <div class="cta">
+      <!-- TODO: заменить на реальную ссылку (RuStore / APK), пока ведёт в никуда -->
+      <a class="btn" href="#install">Как установить</a>
+      <a class="btn ghost" href="#how">Как это считается</a>
+    </div>
+    <p class="meta">Android 8.0 и новее · первые 7 дней бесплатно</p>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>Что внутри</h2>
+      <p class="sub">Пять экранов, каждый отвечает на один вопрос водителя.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Карта спроса</h3>
+          <p>Город разбит на шестиугольные зоны. Цвет зоны — расчётный коэффициент; нажатие
+            открывает карточку с подробностями. Схема, спутник и гибрид переключаются одной кнопкой.</p>
+        </div>
+        <div class="card">
+          <h3>Куда ехать</h3>
+          <p>Приложение сравнивает зоны не по голому коэффициенту, а по ожидаемому заработку в час
+            за вычетом времени на дорогу. Иногда правильный ответ — остаться на месте.</p>
+        </div>
+        <div class="card">
+          <h3>Виджет на экране</h3>
+          <p>Текущий коэффициент, лучшая зона рядом и время подачи — без открытия приложения.
+            Обновляется в фоне, не мешает работе в приложении таксопарка.</p>
+        </div>
+        <div class="card">
+          <h3>Отметки водителей</h3>
+          <p>Видите реальный коэффициент — отмечаете одной кнопкой. Отметка сразу влияет на расчёт
+            вокруг вас и живёт 45 минут, пока остаётся свежей.</p>
+        </div>
+        <div class="card">
+          <h3>Статистика смен</h3>
+          <p>Где и в какие часы вы реально стояли, и какой коэффициент там был. Помогает понять,
+            стоит ли ваш привычный маршрут потраченного времени.</p>
+        </div>
+        <div class="card">
+          <h3>Прикидка поездки</h3>
+          <p>Две точки на карте — оценка расстояния, времени и стоимости подачи, чтобы решить,
+            брать ли дальний заказ.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <h2>Откуда берутся цифры</h2>
+      <p class="sub">Никакой магии и никакого доступа к чужим системам — только открытые данные
+        и то, что отмечают сами водители.</p>
+      <ol class="steps">
+        <li><b>Карта города.</b> Вокзалы, аэропорты, ТЦ, жилые массивы, бизнес-центры — у каждого
+          типа свой профиль спроса по часам и дням недели.</li>
+        <li><b>Время и день.</b> Утренний час пик в спальном районе и вечерний в центре — это
+          разные кривые, модель держит их отдельно.</li>
+        <li><b>Погода.</b> Дождь и мороз поднимают спрос предсказуемо; данные берутся из открытого
+          сервиса Open-Meteo.</li>
+        <li><b>Отметки водителей.</b> Свежая отметка рядом с вами весит больше всего и двигает
+          расчёт сильнее любой эвристики.</li>
+      </ol>
+      <p style="margin-top:26px">
+        <span class="note" style="display:block">
+          <b>Это прогноз, а не официальные данные сервисов заказа такси.</b>
+          Коэффициенты рассчитываются собственной моделью приложения и могут расходиться
+          с тем, что вы видите в приложении таксопарка. Решение, куда ехать, всегда за вами.
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <section id="shots">
+    <div class="wrap">
+      <h2>Как выглядит</h2>
+      <p class="sub">Экраны приложения на телефоне.</p>
+      <div class="shots">
+        <!-- Положите скриншоты в site/img/ и замените содержимое каждого .shot на <img src="img/1.png" alt="Карта спроса"> -->
+        <div class="shot">скриншот 1<br>карта спроса</div>
+        <div class="shot">скриншот 2<br>куда ехать</div>
+        <div class="shot">скриншот 3<br>виджет</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap">
+      <h2>Установка</h2>
+      <p class="sub">Приложение готовится к публикации. Ранний доступ — по запросу.</p>
+      <!-- TODO: заменить на ссылку в RuStore / Google Play или на APK, когда появится -->
+      <p>Напишите нам, и мы пришлём сборку и инструкцию по установке.</p>
+      <p class="meta">Требуется Android 8.0 или новее и разрешение на доступ к геопозиции —
+        без него приложение не знает, где вы стоите, и считать нечего.</p>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>Частые вопросы</h2>
+      <dl class="faq">
+        <dt>Это официальное приложение сервиса заказа такси?</dt>
+        <dd>Нет. ТаксиПульс — независимое приложение, не связанное с какими-либо сервисами заказа
+          такси и их правообладателями. Оно не входит в их системы, не получает доступа к заказам
+          и не влияет на распределение заказов.</dd>
+
+        <dt>Приложение читает экран приложения таксопарка?</dt>
+        <dd>Нет. ТаксиПульс не использует службы специальных возможностей, не делает снимков
+          чужих экранов и никак не вмешивается в работу других приложений.</dd>
+
+        <dt>Сколько стоит?</dt>
+        <dd>Первые 7 дней — бесплатно, без привязки карты. Дальше действует подписка;
+          тарифы показываются в самом приложении.</dd>
+
+        <dt>Работает ли в моём городе?</dt>
+        <dd>Модель не привязана к конкретному городу: она строит сетку вокруг вашей точки.
+          Но чем больше водителей отмечают коэффициенты в городе, тем точнее расчёт.</dd>
+
+        <dt>Нужен ли интернет постоянно?</dt>
+        <dd>Нет. Расчёт идёт на телефоне; сеть нужна для карты, погоды и обмена отметками.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="contacts">
+    <div class="wrap">
+      <h2>Контакты</h2>
+      <p class="sub">Вопросы, ранний доступ, сообщения об ошибках.</p>
+      <!-- TODO: подставить настоящий адрес почты и, если нужно, реквизиты -->
+      <p><b>Почта:</b> <a href="mailto:ПОЧТА@ПРИМЕР.RU">ПОЧТА@ПРИМЕР.RU</a></p>
+      <p class="meta">Отвечаем в течение рабочего дня.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fl">
+      <a href="privacy.html">Политика конфиденциальности</a>
+      <a href="#contacts">Контакты</a>
+    </div>
+    <div>ТаксиПульс — независимое приложение для водителей такси. Названия сервисов и товарные
+      знаки принадлежат их правообладателям.</div>
+  </div>
+</footer>
+
+</body>
+</html>
